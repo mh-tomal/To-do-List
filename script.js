@@ -29,12 +29,18 @@ let addTask = function(event){
     event.preventDefault();
 
     let listItem = createTask(newTask.value);
+    if (newTask.value === '') {
+    
+        showAlert("Please fill the field!","error");
+    } else {
+    
+        incompleteUl.appendChild(listItem);
 
-    incompleteUl.appendChild(listItem);
+        newTask.value = "";
 
-    newTask.value = "";
-
-    bindInCompleteTask(listItem,completeTask);
+        bindInCompleteTask(listItem,completeTask);
+    }
+    
 }
 
 let completeTask = function(){
@@ -85,19 +91,26 @@ for(let i=0; i< completeUl.children.length; i++ ) {
 }
 
 
-let showAlert = function(){
-    alert("Please fill the field!");
+//let showAlert = function(){
+  //  alert("Please fill the field!");
+//}
+
+
+
+form.addEventListener('submit', addTask);
+
+
+
+let showAlert = function(message, className) {
+    let div = document.createElement('div');
+    div.className = `alert ${className}`;
+    div.appendChild(document.createTextNode(message));
+
+    let container = document.querySelector('.container');
+    let form = document.querySelector('form');
+    container.insertBefore(div, form);
+
+    setTimeout(() => {
+        document.querySelector('.alert').remove();
+    }, 3000);
 }
-
-
-
-
-if (newTask.value === '') {
-    showAlert();
-} else {
-
-    form.addEventListener('submit', addTask);
-}
-
-
-
